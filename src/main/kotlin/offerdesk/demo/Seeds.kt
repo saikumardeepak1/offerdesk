@@ -10,6 +10,11 @@ import offerdesk.economics.CatalogEntry
 import offerdesk.economics.MerchantAgreement
 import offerdesk.economics.OfferPolicy
 import offerdesk.economics.RiskAssessment
+import offerdesk.service.Deadlines
+import offerdesk.service.FundingClient
+import offerdesk.service.MerchantTermsClient
+import offerdesk.service.OfferService
+import offerdesk.service.RiskClient
 
 /** Illustrative numbers only. */
 object Seeds {
@@ -58,4 +63,11 @@ object Seeds {
     val thinFile = RiskAssessment(Bps(800), Bps(8_500), "thin-file")
 
     val costOfFunds = Bps(550)
+
+    fun service(
+        merchants: MerchantTermsClient = InMemoryMerchantTerms(),
+        risk: RiskClient = InMemoryRisk(),
+        funding: FundingClient = InMemoryFunding(),
+        deadlines: Deadlines = Deadlines(),
+    ) = OfferService(merchants, risk, funding, policy, deadlines, initialCostOfFunds = costOfFunds)
 }
